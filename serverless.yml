@@ -11,10 +11,10 @@
 #
 # Happy Coding!
 
-service: products-api
+service: movies-rating
 
 custom:
-  productsTableName: 'java-products-${self:provider.stage}'
+  movieTableName: 'java-movies-rating-${self:provider.stage}'
 
 provider:
   name: aws
@@ -33,46 +33,53 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - { "Fn::GetAtt": ["ProductsDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["MoviesDynamoDBTable", "Arn" ] }
   environment:
-    PRODUCTS_TABLE_NAME: ${self:custom.productsTableName}
+    MOVIE_TABLE_NAME: ${self:custom.movieTableName}
 
 package:
   artifact: 'target/${self:service}-${self:provider.stage}.jar'
 
 functions:
-  listProducts:
-    handler: com.serverless.handlers.ListProductsHandler
+  listMovies:
+    handler: com.serverless.handlers.ListMoviesHandler
     events:
       - http:
-          path: /products
+          path: /movies
           method: get
-  getProduct:
-    handler: com.serverless.handlers.GetProductHandler
+  getMovie:
+    handler: com.serverless.handlers.GetMovieHandler
     events:
       - http:
-          path: /products/{id}
+          path: /movies/{id}
           method: get
-  createProduct:
-    handler: com.serverless.handlers.CreateProductHandler
+  addMovie:
+    handler: com.serverless.handlers.AddMovieHandler
     events:
       - http:
-          path: /products
+          path: /movies
           method: post
           integration: LAMBDA
-  deleteProduct:
-    handler: com.serverless.handlers.DeleteProductHandler
+  rateMovie:
+    handler: com.serverless.handlers.RateMovieHandler
     events:
       - http:
-          path: /products/{id}
+          path: /movies/{id}
+          method: put
+          integration: LAMBDA
+  deleteMovie:
+    handler: com.serverless.handlers.DeleteMovieHandler
+    events:
+      - http:
+          path: /movies/{id}
           method: delete
 
 resources:
   Resources:
-    ProductsDynamoDBTable:
+    MoviesDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.productsTableName}
+        TableName: ${self:custom.movieTableName}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
