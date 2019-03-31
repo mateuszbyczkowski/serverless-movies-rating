@@ -8,6 +8,7 @@ import com.serverless.dal.Movie;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class AddMovieHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
@@ -37,7 +38,7 @@ public class AddMovieHandler implements RequestHandler<Map<String, Object>, ApiG
             return ApiGatewayResponse.builder()
                     .setStatusCode(200)
                     .setObjectBody(movie)
-                    //.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+                    .setHeaders(new HashMap<>())
                     .build();
 
         } catch (Exception ex) {
@@ -47,7 +48,7 @@ public class AddMovieHandler implements RequestHandler<Map<String, Object>, ApiG
             return ApiGatewayResponse.builder()
                     .setStatusCode(500)
                     .setObjectBody(responseBody)
-                    //.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+                    .setHeaders(new HashMap<>())
                     .build();
         }
     }

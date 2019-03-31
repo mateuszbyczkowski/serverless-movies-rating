@@ -8,6 +8,7 @@ import com.serverless.dal.Movie;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class RateMovieHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
@@ -22,10 +23,13 @@ public class RateMovieHandler implements RequestHandler<Map<String, Object>, Api
             Map<String, String> pathParameters = (Map<String, String>) input.get("path");
 
             String movieId = pathParameters.get("id");
-            double rate = (Double) body.get("rate");
 
             Movie movie = new Movie().get(movieId);
-            movie.setRate((float) rate);
+            if (body.get("rate") instanceof Double) {
+                movie.setRate((float) (double) body.get("rate"));
+            } else if (body.get("rate") instanceof String) {
+                movie.setRate((float) Double.parseDouble((String) body.get("rate")));
+            }
             movie.save(movie);
 
             logger.info("Rate for movie " + movie.getName() + " updated");
@@ -33,9 +37,8 @@ public class RateMovieHandler implements RequestHandler<Map<String, Object>, Api
             return ApiGatewayResponse.builder()
                     .setStatusCode(200)
                     .setObjectBody(movie)
-                    //.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+                    .setHeaders(new HashMap<>())
                     .build();
-
         } catch (Exception ex) {
             logger.error("Error in saving movie: " + ex);
 
@@ -43,7 +46,7 @@ public class RateMovieHandler implements RequestHandler<Map<String, Object>, Api
             return ApiGatewayResponse.builder()
                     .setStatusCode(500)
                     .setObjectBody(responseBody)
-                    //.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+                    .setHeaders(new HashMap<>())
                     .build();
         }
     }

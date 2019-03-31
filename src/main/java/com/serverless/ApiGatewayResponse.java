@@ -65,6 +65,9 @@ public class ApiGatewayResponse {
 
         public Builder setHeaders(Map<String, String> headers) {
             this.headers = headers;
+            this.headers.put("Access-Control-Allow-Origin", "*");
+            this.headers.put("Content-Type", "application/json");
+            this.headers.put("Access-Control-Allow-Credentials", "true");
             return this;
         }
 

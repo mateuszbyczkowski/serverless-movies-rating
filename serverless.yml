@@ -47,12 +47,14 @@ functions:
       - http:
           path: /movies
           method: get
+          cors: true
   getMovie:
     handler: com.serverless.handlers.GetMovieHandler
     events:
       - http:
           path: /movies/{id}
           method: get
+          cors: true
   addMovie:
     handler: com.serverless.handlers.AddMovieHandler
     events:
@@ -60,6 +62,7 @@ functions:
           path: /movies
           method: post
           integration: LAMBDA
+          cors: true
   rateMovie:
     handler: com.serverless.handlers.RateMovieHandler
     events:
@@ -67,12 +70,14 @@ functions:
           path: /movies/{id}
           method: put
           integration: LAMBDA
+          cors: true
   deleteMovie:
     handler: com.serverless.handlers.DeleteMovieHandler
     events:
       - http:
           path: /movies/{id}
           method: delete
+          cors: true
 
 resources:
   Resources:
