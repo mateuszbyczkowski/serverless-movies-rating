@@ -75,7 +75,8 @@
                 info: null,
                 newMovieTitle: "",
                 newMovieAuthor: "",
-                newMovieRate: Number
+                newMovieRate: Number,
+                service: MovieService.getInstance()
             }
         },
         beforeMount() {
@@ -84,7 +85,7 @@
         methods: {
             rateMovie: function (id, rate) {
                 this.loading = true;
-                MovieService.rateMovie(id, rate)
+                this.service.rateMovie(id, rate)
                     .then(() => {
                         this.error = '';
                         this.info = 'Successfully rated movie!';
@@ -99,7 +100,7 @@
             },
             addMovie: function () {
                 this.loading = true;
-                MovieService.addMovie({
+                this.service.addMovie({
                     "name": this.newMovieTitle,
                     "author": this.newMovieAuthor,
                     "rate": this.newMovieRate,
@@ -118,7 +119,7 @@
             },
             deleteMovie: function (id) {
                 this.loading = true;
-                MovieService.deleteMovie(id)
+                this.service.deleteMovie(id)
                     .then(() => {
                         this.error = "";
                         this.info = 'Movie deleted';
@@ -133,7 +134,7 @@
             },
             fetchData() {
                 this.loading = true;
-                MovieService.getMovies()
+                this.service.getMovies()
                     .then(resp => {
                         this.error = "";
                         this.movies = resp;
