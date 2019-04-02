@@ -14,8 +14,10 @@ target
 .serverless
 
 .DS_Store
-node_modules
-/dist
+frontend/movie-rating/node_modules
+node_moduls
+frontend/movie-rating/dist
+frontend/dist
 
 # local env files
 .env.local
