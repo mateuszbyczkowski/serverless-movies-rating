@@ -1,4 +1,6 @@
-# movie-rating
+# Movie rating application
+Vue.js based frontend for serverless application.
+Hosted in AWS S3.
 
 ## Project setup
 ```
@@ -14,16 +16,13 @@ npm run serve
 ```
 npm run build
 ```
-
-### Run your tests
+or
 ```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
+yarn build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Deploy on AWS S3 (static page) 
+Build to prepare your dist folder
+```
+yarn deploy
+```
