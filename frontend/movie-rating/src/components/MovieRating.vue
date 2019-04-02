@@ -1,9 +1,7 @@
 <template>
     <div class="rating">
         <div class="loading" v-if="loading">
-            <div id="loading" >
-
-            </div>
+            <div id="loading"></div>
         </div>
         <div class="row" style="z-index: 2">
             <h3>{{ title }}</h3>
@@ -30,25 +28,26 @@
             </table>
         </div>
 
-        <span class="alert" style="color:blue">{{info}}</span>
-        <span class="alert" style="color:red">{{error}}</span>
+        <span class="alert" v-if="info !== ''" style="color:blue; background-color: lightblue;">{{info}}</span>
+        <span class="alert" v-if="error !== ''" style="color:red; background-color: lightcoral;">{{error}}</span>
 
-        <a href="#add" @click="toggleAdd">Toggle add form</a>
-
+        <button style="navbutton_background_color: aliceblue; margin-left: 150px">
+            <a href="#add" @click="toggleAdd">Toggle add form</a>
+        </button>
 
         <hr/>
         <div id="add" v-if="showAdd" class="row add-container">
             <form>
                 <div>
-                    <label class="label-movie">Name </label>
+                    <label for="newMovieTitle" class="label-movie">Name </label>
                     <input v-model="newMovieTitle" type="newMovieTitle" id="newMovieTitle" placeholder="Movie name"/>
                 </div>
                 <div>
-                    <label class="label-movie">Author </label>
+                    <label for="newMovieAuthor" class="label-movie">Author </label>
                     <input v-model="newMovieAuthor" type="newMovieAuthor" id="newMovieAuthor" placeholder="Author   "/>
                 </div>
                 <div>
-                    <label class="label-movie">Rate </label>
+                    <label for="newMovieRate" class="label-movie">Rate </label>
                     <input type="number" step="any" max="5" min="1" v-model="newMovieRate" id="newMovieRate"/>
                 </div>
                 <button type="submit" @click="addMovie" class="btn add-movie">Add movie</button>
@@ -58,7 +57,6 @@
 </template>
 
 <script>
-
     import MovieService from "../services/MovieService";
 
     export default {
@@ -71,10 +69,10 @@
                 loading: false,
                 showAdd: false,
                 movies: null,
-                error: null,
-                info: null,
-                newMovieTitle: "",
-                newMovieAuthor: "",
+                error: '',
+                info: '',
+                newMovieTitle: '',
+                newMovieAuthor: '',
                 newMovieRate: Number,
                 service: MovieService.getInstance()
             }
@@ -121,14 +119,14 @@
                 this.loading = true;
                 this.service.deleteMovie(id)
                     .then(() => {
-                        this.error = "";
+                        this.error = '';
                         this.info = 'Movie deleted';
                         this.fetchData();
                         this.loading = false;
                     })
                     .catch(() => {
                         this.error = "Can't delete movie!";
-                        this.info = "";
+                        this.info = '';
                         this.loading = false;
                     });
             },
@@ -136,13 +134,13 @@
                 this.loading = true;
                 this.service.getMovies()
                     .then(resp => {
-                        this.error = "";
+                        this.error = '';
                         this.movies = resp;
                         this.loading = false;
                     })
                     .catch(err => {
                         this.error = err;
-                        this.info = "";
+                        this.info = '';
                         this.loading = false;
                     });
             },
@@ -211,7 +209,7 @@
         display: inline-block;
         width: 50px;
         height: 50px;
-        border: 3px solid rgba(255,255,255,.3);
+        border: 3px solid rgba(255, 255, 255, .3);
         border-radius: 50%;
         border-top-color: #fff;
         animation: spin 1s ease-in-out infinite;
@@ -219,9 +217,14 @@
     }
 
     @keyframes spin {
-        to { -webkit-transform: rotate(360deg); }
+        to {
+            -webkit-transform: rotate(360deg);
+        }
     }
+
     @-webkit-keyframes spin {
-        to { -webkit-transform: rotate(360deg); }
+        to {
+            -webkit-transform: rotate(360deg);
+        }
     }
 </style>
