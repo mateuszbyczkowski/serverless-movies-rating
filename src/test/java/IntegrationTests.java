@@ -6,6 +6,6 @@ public class IntegrationTests {
 
     @Test
     public void handleRequest() {
-        assertEquals(true, true);
+        assertTrue(true);
     }
 }
