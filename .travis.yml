@@ -6,5 +6,6 @@ script:
   - npm install -g yarn
   - mvn clean install
   - sls deploy
-  - cd frontend && npm install
-  - cd frontend && yarn deploy
+  - cd frontend
+  - npm install
+  - yarn deploy
