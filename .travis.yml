@@ -4,6 +4,6 @@ install: true
 script:
   - npm install -g serverless
   - npm install -g yarn
-  - cd frontend/movie-rating && npm install && yarn deploy
   - mvn clean install
   - sls deploy
+  - cd frontend/movie-rating && npm install && yarn deploy
