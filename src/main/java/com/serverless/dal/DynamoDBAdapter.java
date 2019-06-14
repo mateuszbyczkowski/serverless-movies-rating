@@ -20,6 +20,10 @@ public class DynamoDBAdapter {
                 .build();
     }
 
+    public DynamoDBAdapter(AmazonDynamoDB client) {
+        this.client = client;
+    }
+
     public static DynamoDBAdapter getInstance() {
         if (db_adapter == null)
             db_adapter = new DynamoDBAdapter();

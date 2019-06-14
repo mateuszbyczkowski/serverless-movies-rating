@@ -70,10 +70,17 @@ public class Movie {
                 .withTableNameOverride(new DynamoDBMapperConfig.TableNameOverride(MOVIE_TABLE_NAME))
                 .build();
         // get the db adapter
-        this.db_adapter = DynamoDBAdapter.getInstance();
-        this.client = this.db_adapter.getDbClient();
+        db_adapter = DynamoDBAdapter.getInstance();
+        this.client = db_adapter.getDbClient();
         // create the mapper with config
-        this.mapper = this.db_adapter.createDbMapper(mapperConfig);
+        this.mapper = db_adapter.createDbMapper(mapperConfig);
+    }
+
+    public Movie(AmazonDynamoDB client) {
+        db_adapter = DynamoDBAdapter.getInstance();
+        this.client = client;
+        // create the mapper with config
+        this.mapper = new DynamoDBMapper(client);
     }
 
     public String toString() {
